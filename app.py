@@ -57,6 +57,7 @@ server = app.server
 
 app.layout = html.Div([
     html.H2('Hortiq'),
+    html.H4('Horticultural intelligence.')
     dcc.Dropdown(
         id='dropdown',
         options=plant_type_options,
