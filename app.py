@@ -63,7 +63,7 @@ app.layout = html.Div([
         value=['All Types'],
         multi=True
     ),
-    dcc.Graph(id='scatter-plot', figure=fig)
+    dcc.Graph(id='scatter-plot')
 ])
 
 @app.callback(dash.dependencies.Output('scatter-plot', 'figure'),
