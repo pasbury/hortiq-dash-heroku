@@ -1,13 +1,27 @@
 import os
+import json
 
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import pandas as pd
+import plotly.express as px
+
+# Load data
+
+# read relative interest file
+try:
+    infile='data/genera_relative_interest.txt'
+    with open(infile, 'r') as infile:
+        indata = infile.read()
+    interest = json.loads(indata)
+except FileNotFoundError as fnf_error:
+    print(fnf_error)
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 server = app.server
 
 app.layout = html.Div([
