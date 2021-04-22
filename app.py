@@ -52,7 +52,7 @@ df = df.query('-0.2 <= yoy_1Y_pct <= 1')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,title='Hortiq - Horticultural intelligence')
 server = app.server
 
 app.layout = html.Div([
