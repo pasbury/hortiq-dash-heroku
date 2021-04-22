@@ -74,7 +74,7 @@ def update_scatter(value):
     filter_list = genera_to_show(genera_dict, value)
     fdf = df[df.index.isin(filter_list)]
     # create the plot
-    fig = px.scatter(df, x='relative_interest', y='yoy_1Y_pct', text='label', log_x=True, height=800, width=800,
+    fig = px.scatter(fdf, x='relative_interest', y='yoy_1Y_pct', text='label', log_x=True, height=800, width=800,
                      labels={
                          "relative_interest": "Search volume in last 12 months (log scale)",
                          "yoy_1Y_pct": "Change in search volume, last 12 months vs prior 12 months"
