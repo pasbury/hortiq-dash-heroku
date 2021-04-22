@@ -1,4 +1,3 @@
-import os
 import json
 
 import dash
@@ -64,19 +63,42 @@ app.layout = html.Div([
         value=['All Types'],
         multi=True
     ),
-    dcc.Graph(id='scatter-plot')
+    dcc.Graph(id='scatter-plot', clickData={'points': [{'text': 'Roses'}]}),
+    dcc.Graph(id='line-plot')
 ])
 
 @app.callback(dash.dependencies.Output('scatter-plot', 'figure'),
               dash.dependencies.Input('dropdown', 'value'))
-def update_figure(value):
+def update_scatter(value):
     # filter dataframe based on selection
     filter_list = genera_to_show(genera_dict, value)
     fdf = df[df.index.isin(filter_list)]
     # create the plot
-    fig = px.scatter(fdf, x='relative_interest', y='yoy_1Y_pct', text='label', log_x=True, height=800, width=800)
+    fig = px.scatter(df, x='relative_interest', y='yoy_1Y_pct', text='label', log_x=True, height=800, width=800,
+                     labels={
+                         "relative_interest": "Search volume in last 12 months (log scale)",
+                         "yoy_1Y_pct": "Change in search volume, last 12 months vs prior 12 months"
+                     },
+                     title="Google Search Volume by Genus")
+    fig.update_yaxes(tickformat='%')
+    fig.update_xaxes(showticklabels=False)
 
     return fig
+
+@app.callback(dash.dependencies.Output('line-plot', 'figure'),
+              dash.dependencies.Input('scatter-plot', 'clickData'))
+def update_line(clickData):
+    # get genus that has been clicked
+    g = clickData['points'][0]['text']
+    # get iot data for that genus
+    df = pd.DataFrame(interest[g]['iot'])
+    df.index = pd.to_datetime(df.index)
+    df.sort_index(inplace=True)
+    # create the plot
+    fig = px.line(df, x=df.index, y=df.columns[0], title=g + ': Search interest over last five years',height=400, width = 800, labels = {'index':'Date', df.columns[0]:'Search volume (maximum = 100)'})
+
+    return fig
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
