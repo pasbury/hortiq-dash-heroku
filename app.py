@@ -63,7 +63,8 @@ card_with_tabs = dbc.Card(
                 [
                     dbc.Tab(label="Top", tab_id="tab-top"),
                     dbc.Tab(label="Rising", tab_id="tab-rising"),
-                    dbc.Tab(label="Suggestions", tab_id="tab-suggestions")
+                    dbc.Tab(label="Suggestions", tab_id="tab-suggestions"),
+                    dbc.Tab(label="'Buy..' suggestions", tab_id="tab-buy")
                 ],
                 id="card-tabs",
                 card=True,
@@ -73,22 +74,6 @@ card_with_tabs = dbc.Card(
         dbc.CardBody(html.P(id="card-content", className="card-text")),
     ]
 )
-
-div_with_tabs = html.Div([
-    html.P('Related search queries'),
-    dbc.Tabs(
-        [
-            dbc.Tab(label="Top", tab_id="tab-top"),
-            dbc.Tab(label="Rising", tab_id="tab-rising"),
-            dbc.Tab(label="Suggestions", tab_id="tab-suggestions")
-        ],
-        id="card-tabs",
-        card=True,
-        active_tab="tab-top"
-    ),
-    html.Div(id='card-content')]
-)
-
 app.layout = html.Div([
 
     dbc.Row(dbc.Col(html.H2('Hortiq'))),
@@ -146,19 +131,29 @@ def tab_content(active_tab, clickData):
     # get genus that has been clicked
     g = clickData['points'][0]['text']
     if active_tab == 'tab-suggestions':
-        content = [ html.P(i, style={'line-height':0.7}) for i in interest[g]['suggested_queries'] ]
+        content = html.Ol([ html.Li(i) for i in interest[g]['suggested_queries'] ])
+    elif active_tab == 'tab-buy':
+        content = html.Ol([html.Li(i) for i in interest[g]['suggested_queries_buy']])
     elif active_tab == 'tab-top':
         df = pd.DataFrame(interest[g]['related_queries_top'])
         content = dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'id': c, 'name': c} for c in df.columns],
-            page_size=6)
+            page_size=6,
+            style_cell_conditional = [{
+                'if': {'column_id': 'query'},
+                'textAlign': 'left'
+            }])
     else: # tab-rising
         df = pd.DataFrame(interest[g]['related_queries_rising'])
         content = dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'id': c, 'name': c} for c in df.columns],
-            page_size=6)
+            page_size=6,
+            style_cell_conditional = [{
+                'if': {'column_id': 'query'},
+                'textAlign': 'left'
+            }])
     return content
 
 
