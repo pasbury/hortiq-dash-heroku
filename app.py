@@ -3,6 +3,8 @@ import json
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
+import dash_table
 
 import pandas as pd
 import plotly.express as px
@@ -49,22 +51,61 @@ df = pd.DataFrame(d).transpose()
 df['label'] = df.index
 df = df.query('-0.2 <= yoy_1Y_pct <= 1')
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = external_stylesheets=[dbc.themes.BOOTSTRAP] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,title='Hortiq - Horticultural intelligence')
 server = app.server
 
+card_with_tabs = dbc.Card(
+    [
+        dbc.CardHeader(
+            dbc.Tabs(
+                [
+                    dbc.Tab(label="Top", tab_id="tab-top"),
+                    dbc.Tab(label="Rising", tab_id="tab-rising"),
+                    dbc.Tab(label="Suggestions", tab_id="tab-suggestions")
+                ],
+                id="card-tabs",
+                card=True,
+                active_tab="tab-top",
+            )
+        ),
+        dbc.CardBody(html.P(id="card-content", className="card-text")),
+    ]
+)
+
+div_with_tabs = html.Div([
+    html.P('Related search queries'),
+    dbc.Tabs(
+        [
+            dbc.Tab(label="Top", tab_id="tab-top"),
+            dbc.Tab(label="Rising", tab_id="tab-rising"),
+            dbc.Tab(label="Suggestions", tab_id="tab-suggestions")
+        ],
+        id="card-tabs",
+        card=True,
+        active_tab="tab-top"
+    ),
+    html.Div(id='card-content')]
+)
+
 app.layout = html.Div([
-    html.H2('Hortiq'),
-    html.H6('Horticultural intelligence.'),
-    dcc.Dropdown(
+
+    dbc.Row(dbc.Col(html.H2('Hortiq'))),
+    dbc.Row(dbc.Col(html.H6('Horticultural intelligence.'))),
+    dbc.Row(dbc.Col(dcc.Dropdown(
         id='dropdown',
         options=plant_type_options,
         value=['All Types'],
         multi=True
-    ),
-    dcc.Graph(id='scatter-plot', clickData={'points': [{'text': 'Roses'}]}),
-    dcc.Graph(id='line-plot')
+    ), width=6)),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='scatter-plot', clickData={'points': [{'text': 'Roses'}]}), width=5),
+        dbc.Col([
+            dbc.Row(dbc.Col(dcc.Graph(id='line-plot'))),
+            dbc.Row(dbc.Col(html.Div([html.P('Related search queries'),card_with_tabs])))
+        ], width=5)
+    ])
 ])
 
 @app.callback(dash.dependencies.Output('scatter-plot', 'figure'),
@@ -95,9 +136,30 @@ def update_line(clickData):
     df.index = pd.to_datetime(df.index)
     df.sort_index(inplace=True)
     # create the plot
-    fig = px.line(df, x=df.index, y=df.columns[0], title=g + ': Search interest over last five years',height=400, width = 800, labels = {'index':'Date', df.columns[0]:'Search volume (maximum = 100)'})
+    fig = px.line(df, x=df.index, y=df.columns[0], title=g + ': Search interest over last five years',height=400, width = 850, labels = {'index':'Date', df.columns[0]:'Search volume (maximum = 100)'})
 
     return fig
+
+@app.callback(dash.dependencies.Output("card-content", "children"), [dash.dependencies.Input("card-tabs", "active_tab"),
+                                                                     dash.dependencies.Input('scatter-plot', 'clickData')])
+def tab_content(active_tab, clickData):
+    # get genus that has been clicked
+    g = clickData['points'][0]['text']
+    if active_tab == 'tab-suggestions':
+        content = [ html.P(i, style={'line-height':0.7}) for i in interest[g]['suggested_queries'] ]
+    elif active_tab == 'tab-top':
+        df = pd.DataFrame(interest[g]['related_queries_top'])
+        content = dash_table.DataTable(
+            data=df.to_dict('records'),
+            columns=[{'id': c, 'name': c} for c in df.columns],
+            page_size=6)
+    else: # tab-rising
+        df = pd.DataFrame(interest[g]['related_queries_rising'])
+        content = dash_table.DataTable(
+            data=df.to_dict('records'),
+            columns=[{'id': c, 'name': c} for c in df.columns],
+            page_size=6)
+    return content
 
 
 if __name__ == '__main__':
