@@ -45,6 +45,15 @@ def genera_to_show(genera_dict, types):
     [distinct_genera.update(type_to_genera[t]) for t in types]
     return sorted(distinct_genera)
 
+# remove irrelevant results from 'buy suggestions'
+def process_buy_sugg(in_list, search_prefix):
+    out_list = []
+    for s in in_list:
+        x = s.split(search_prefix + ' ')
+        if len(x) > 1:
+            out_list.append(search_prefix + ' ' + x[1])
+    return out_list
+
 # prepare dataframe to plot
 d = {k: {'relative_interest': v['relative_interest'], 'yoy_1Y_pct': v['yoy_1Y_pct']} for k, v in interest.items()}
 df = pd.DataFrame(d).transpose()
@@ -133,7 +142,8 @@ def tab_content(active_tab, clickData):
     if active_tab == 'tab-suggestions':
         content = html.Ol([ html.Li(i) for i in interest[g]['suggested_queries'] ])
     elif active_tab == 'tab-buy':
-        content = html.Ol([html.Li(i) for i in interest[g]['suggested_queries_buy']])
+        content = html.Ol([html.Li(i) for i in process_buy_sugg(interest[g]['suggested_queries_buy'],
+                                                                'buy ' + genera_dict[g]['botanical_name'].lower())])
     elif active_tab == 'tab-top':
         df = pd.DataFrame(interest[g]['related_queries_top'])
         content = dash_table.DataTable(
