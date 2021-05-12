@@ -26,8 +26,8 @@ navbar = dbc.Navbar(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src="/assets/favicon.ico", height="30px")),
-                        dbc.Col(dbc.NavbarBrand("Hortiq", className="ml-2")),
+                        dbc.Col(html.Img(src="/assets/hortiq-logo-white.png", height="60px")),
+                        #dbc.Col(dbc.NavbarBrand("Hortiq", className="ml-2")),
                     ],
                     align="centre",
                     justify="start",
@@ -44,8 +44,7 @@ navbar = dbc.Navbar(
                 id="navbar-collapse",
                 navbar=True,
             ),
-        ]
-    ),
+        ]),
     color="dark",
     dark=True,
     className="mb-4",
