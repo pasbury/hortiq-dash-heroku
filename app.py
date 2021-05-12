@@ -5,8 +5,9 @@ import dash_bootstrap_components as dbc
 external_stylesheets = [dbc.themes.FLATLY] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
 meta_tags_list = [
     {'name': 'og:title', 'content': 'Hortiq: Horticultural intelligence.'},
-    {'name': 'og:image', 'content': '/assets/hortiq-logo-black.png'},
-    {'name': 'og:url', 'content': 'http://www.hortiq.co.uk/'}
+    {'name': 'og:image', 'content': 'assets/hortiq-logo-black.png'},
+    {'name': 'og:url', 'content': 'http://www.hortiq.co.uk/'},
+    {'name': 'og:description', 'content': 'Market intelligence for growers and online retailers in the horticulture industry.'}
 ]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, title='Hortiq - Horticultural intelligence',
