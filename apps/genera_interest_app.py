@@ -51,6 +51,7 @@ card_with_tabs = dbc.Card(
 layout = dbc.Container([
 
     dbc.Row(dbc.Col(html.H2('Online Search Interest for Popular Plant Genera'))),
+    html.Br(),
     dbc.Row(dbc.Col(html.H6('Filter genera by plant type in this dropdown:'))),
     dbc.Row(dbc.Col(dcc.Dropdown(
         id='dropdown',
@@ -58,13 +59,15 @@ layout = dbc.Container([
         value=['All Types'],
         multi=True
     ), width=6)),
+    html.Br(),
     dbc.Row([
         dbc.Col(dcc.Graph(id='scatter-plot', clickData={'points': [{'text': 'Roses'}]}), width=7),
         dbc.Col([
             dbc.Row(dbc.Col(dcc.Graph(id='line-plot'))),
-            dbc.Row(dbc.Col(html.Div([html.P('Related search queries'),card_with_tabs])))
         ], width=5)
-    ])
+    ]),
+    html.Br(),
+    dbc.Row(dbc.Col(html.Div([html.P('Related search queries'),card_with_tabs])))
 ])
 
 @app.callback(dash.dependencies.Output('scatter-plot', 'figure'),
@@ -82,6 +85,9 @@ def update_scatter(value):
                      title="Google Search Volume by Genus")
     fig.update_yaxes(tickformat='%')
     fig.update_xaxes(showticklabels=False)
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=30, b=10)
+    )
 
     return fig
 
@@ -98,7 +104,9 @@ def update_line(clickData):
     df.sort_index(inplace=True)
     # create the plot
     fig = px.line(df, x=df.index, y=df.columns[0], title=g + ': Search interest over last five years', labels = {'index':'Date', df.columns[0]:'Search volume (maximum = 100)'})
-
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=30, b=10)
+    )
     return fig
 #height=400, width = 600,
 @app.callback(dash.dependencies.Output("card-content", "children"), [dash.dependencies.Input("card-tabs", "active_tab"),
