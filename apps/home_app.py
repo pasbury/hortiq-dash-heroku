@@ -11,7 +11,7 @@ genera_interest_card = dbc.Card(
         [
             html.H5("Search trends by genus", className="card-title"),
             html.P("Explore trends in online search interest for popular plant genera."),
-            dbc.Button("View dashboard", color="primary", href='/apps/genera_interest_app'),
+            dbc.Button("View dashboard", color="success", href='/apps/genera_interest_app', outline=True),
         ]
     )
 )
@@ -21,7 +21,7 @@ genera_gs_card = dbc.Card(
         [
             html.H5("Online buying by genus", className="card-title"),
             html.P("Review buying options, numbers of suppliers and average prices for popular plant genera."),
-            dbc.Button("View dashboard", color="primary", href='/apps/genera_gs_app'),
+            dbc.Button("View dashboard", color="success", href='/apps/genera_gs_app', outline=True),
         ]
     )
 )
@@ -31,7 +31,7 @@ genera_opp_comp_card = dbc.Card(
         [
             html.H5("Market opportunity by genus", className="card-title"),
             html.P("Analyse potential opportunity vs competitive intensity for popular plant genera."),
-            dbc.Button("View dashboard", color="primary", href='/apps/genera_opp_comp_app'),
+            dbc.Button("View dashboard", color="success", href='/apps/genera_opp_comp_app', outline=True),
         ]
     )
 )
