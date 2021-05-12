@@ -3,7 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
-from app import app
+from app import app, server
 from apps import home_app, genera_interest_app, genera_gs_app, genera_opp_comp_app
 import navbar
 
