@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
 from app import app, server
-from apps import home_app, genera_interest_app, genera_gs_app, genera_opp_comp_app, comp_app, supplier_app
+from apps import home_app, genera_interest_app, genera_gs_app, genera_opp_comp_app, comp_app#, supplier_app
 
 import navbar
 
@@ -27,8 +27,8 @@ def display_page(pathname):
         return genera_opp_comp_app.layout
     elif pathname == '/apps/comp_app':
         return comp_app.layout
-    elif pathname == '/apps/supplier_app':
-        return supplier_app.layout
+#    elif pathname == '/apps/supplier_app':
+#        return supplier_app.layout
     else:
         return '404'
 
