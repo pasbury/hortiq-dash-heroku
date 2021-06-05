@@ -40,7 +40,7 @@ layout = dbc.Container([
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
         dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="supplier_products_p", className="card-text")])), width=3),
-    #    dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)
+        dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="supplier_average_price_p", className="card-text")])), width=3)
     ]),
     html.Br(),
     dbc.Row(dbc.Col(dash_table.DataTable(
@@ -72,7 +72,7 @@ layout = dbc.Container([
 @app.callback(
     Output('genera_p', 'children'),
               Output('supplier_products_p', 'children'),
-    #           Output('average_price_p', 'children'),
+              Output('supplier_average_price_p', 'children'),
               Output('supplier-lookup-table', 'data'),
               Input('supplier_dropdown', 'value'))
 def filter_table(value):
@@ -88,6 +88,4 @@ def filter_table(value):
         num_genera_str = ""
         num_products_str = ""
         average_price_str = ""
-    return num_genera_str, num_products_str, fdf.to_dict('records')
-
-#, average_price_str,
+    return num_genera_str, num_products_str, average_price_str, fdf.to_dict('records')
