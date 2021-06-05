@@ -63,9 +63,3 @@ app.callback(
     [Input("navbar-toggler", "n_clicks")],
     [State("navbar-collapse", "is_open")],
 )(toggle_navbar_collapse)
-
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    navbar,
-    html.Div(id='page-content')
-])

@@ -5,8 +5,14 @@ import dash_bootstrap_components as dbc
 
 from app import app, server
 from apps import home_app, genera_interest_app, genera_gs_app, genera_opp_comp_app, comp_app, supplier_app
+
 import navbar
 
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    navbar.navbar,
+    html.Div(id='page-content'),
+])
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
