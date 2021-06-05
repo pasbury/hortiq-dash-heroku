@@ -35,7 +35,7 @@ layout = dbc.Container([
 
     dbc.Row(dbc.Col(html.H2('Find Genera Offered Online by a Supplier'))),
     dbc.Row(dbc.Col(dbc.Form(dbc.FormGroup([dbc.Label("Please select supplier:", className="mr-2"),
-                                            dbc.Select(id='supplier_dropdown', options=supplier_options, value=['Crocus.co.uk'])], className="mr-3"), inline=True))),
+                                            dbc.Select(id='supplier_dropdown', options=supplier_options, value="Crocus.co.uk")], className="mr-3"), inline=True))),
     html.Br(),
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
@@ -76,7 +76,7 @@ layout = dbc.Container([
               Output('supplier-lookup-table', 'data'),
               Input('supplier_dropdown', 'value'))
 def filter_table(value):
-    if value:
+    if not (value is None):
         # filter dataframe based on selection
         fdf = df[df['merchant_name'].isin(([value])) & (df.rhs_id > 1)]
         num_genera_str = '{:,}'.format(len(fdf))

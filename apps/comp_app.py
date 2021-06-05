@@ -37,7 +37,7 @@ layout = dbc.Container([
 
     dbc.Row(dbc.Col(html.H2('Find Online Suppliers for a Genus'))),
     dbc.Row(dbc.Col(dbc.Form(dbc.FormGroup([dbc.Label("Please select genus:", className="mr-2"),
-                                            dbc.Select(id='genus_dropdown', options=genus_options, value=['Rosa'])], className="mr-3"), inline=True))),
+                                            dbc.Select(id='genus_dropdown', options=genus_options, value='Rosa')], className="mr-3"), inline=True))),
     html.Br(),
     dbc.Row([dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of suppliers", className="card-title"),html.H4(id="suppliers_p", className="card-text")])), width=3),
              dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
