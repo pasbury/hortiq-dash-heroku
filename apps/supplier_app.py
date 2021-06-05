@@ -40,31 +40,31 @@ layout = dbc.Container([
     # dbc.Row([dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
     #          dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
     #          dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)]),
-    # html.Br(),
-    # dbc.Row(dbc.Col(dash_table.DataTable(
-    #         id='supplier-lookup-table',
-    #         data=df.to_dict('records'),
-    #         columns=cols,
-    #         sort_action="native",
-    #         page_size=15,
-    #         merge_duplicate_headers=True,
-    #         style_cell={'textAlign': 'right', 'font_family': 'lato',},
-    #         style_cell_conditional=[{
-    #                 'if': {'column_id': 'genus'},
-    #                 'textAlign': 'left'
-    #             }],
-    #         style_header={
-    #             'backgroundColor': '#7b8a8b',
-    #             'fontWeight': 'bold',
-    #             'color':'white'
-    #         },
-    #         style_data_conditional=[
-    #             {
-    #                 'if': {'row_index': 'odd'},
-    #                 'backgroundColor': '#ecf0f1'
-    #             }
-    #         ],
-    #         sort_by=[{'column_id': 'rhs_id', 'direction': 'desc'}],), width=12))
+    html.Br(),
+    dbc.Row(dbc.Col(dash_table.DataTable(
+            id='supplier-lookup-table',
+            data=df.to_dict('records'),
+            columns=cols,
+            sort_action="native",
+            page_size=15,
+            merge_duplicate_headers=True,
+            style_cell={'textAlign': 'right', 'font_family': 'lato',},
+            style_cell_conditional=[{
+                    'if': {'column_id': 'genus'},
+                    'textAlign': 'left'
+                }],
+            style_header={
+                'backgroundColor': '#7b8a8b',
+                'fontWeight': 'bold',
+                'color':'white'
+            },
+            style_data_conditional=[
+                {
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': '#ecf0f1'
+                }
+            ],
+            sort_by=[{'column_id': 'rhs_id', 'direction': 'desc'}],), width=12))
     ])
 
 @app.callback(
