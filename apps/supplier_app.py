@@ -11,13 +11,11 @@ import data_helpers as dh
 
 # prepare data for data table (will filter in callback later)
 # Datatable fomatting
-#avg_format = Format()
-#avg_format = avg_format.scheme(Scheme.fixed).precision(1).group(Group.yes)
 gbp_format = Format()
 gbp_format = gbp_format.scheme(Scheme.fixed).precision(2).symbol(Symbol.yes).symbol_prefix('£').group(Group.yes)
 
 cols = [
-    { 'id':'merchant_name', 'name':['','Supplier'] },
+    { 'id':'genus', 'name':['','Genus'] },
     { 'id':'rhs_id', 'name':['Number of', 'plants'] },
     { 'id':'google_product_title', 'name':['Number of', 'products'] },
     { 'id': 'price na', 'name': ['Average price by product type/size (if known)', 'Not known'], 'type':'numeric', 'format':gbp_format },
@@ -31,15 +29,15 @@ cols = [
     { 'id':'price other', 'name': ['Average price by product type/size (if known)', 'Other'], 'type':'numeric', 'format':gbp_format },]
 
 df = dh.gs_genus_comp.reset_index()
-genus_options = [ {'label':e, 'value':e} for e in list(df['genus'].unique()) ]
+supplier_options = [ {'label':e, 'value':e} for e in list(df['merchant_name'].unique()) ]
 
 layout = dbc.Container([
 
-    dbc.Row(dbc.Col(html.H2('Find Online Suppliers for a Genus'))),
-    dbc.Row(dbc.Col(dbc.Form(dbc.FormGroup([dbc.Label("Please select genus:", className="mr-2"),
-                                            dbc.Select(id='genus_dropdown', options=genus_options, value=['Rosa'])], className="mr-3"), inline=True))),
+    dbc.Row(dbc.Col(html.H2('Find Genera Offered Online by a Supplier'))),
+    dbc.Row(dbc.Col(dbc.Form(dbc.FormGroup([dbc.Label("Please select supplier:", className="mr-2"),
+                                            dbc.Select(id='supplier_dropdown', options=supplier_options, value=['Crocus.co.uk'])], className="mr-3"), inline=True))),
     html.Br(),
-    dbc.Row([dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of suppliers", className="card-title"),html.H4(id="suppliers_p", className="card-text")])), width=3),
+    dbc.Row([dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
              dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
              dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)]),
     html.Br(),
@@ -52,7 +50,7 @@ layout = dbc.Container([
             merge_duplicate_headers=True,
             style_cell={'textAlign': 'right', 'font_family': 'lato',},
             style_cell_conditional=[{
-                    'if': {'column_id': 'merchant_name'},
+                    'if': {'column_id': 'genus'},
                     'textAlign': 'left'
                 }],
             style_header={
@@ -69,23 +67,22 @@ layout = dbc.Container([
             sort_by=[{'column_id': 'rhs_id', 'direction': 'desc'}],), width=12))
     ])
 
-
-@app.callback(Output('suppliers_p', 'children'),
+@app.callback(Output('genera_p', 'children'),
               Output('products_p', 'children'),
               Output('average_price_p', 'children'),
               Output('gs-genus-comp-table', 'data'),
-              Input('genus_dropdown', 'value'))
+              Input('supplier_dropdown', 'value'))
 def filter_table(value):
     if value:
         # filter dataframe based on selection
-        fdf = df[df.genus.isin(([value])) & (df.rhs_id > 1)]
-        num_suppliers_str = '{:,}'.format(len(fdf))
+        fdf = df[df['merchant_name'].isin(([value])) & (df.rhs_id > 1)]
+        num_genera_str = '{:,}'.format(len(fdf))
         num_products_str = '{:,}'.format(int(sum(fdf['google_product_title'])))
         average_price = sum(fdf['item_price_num'])/sum(fdf['google_product_title']) if sum(fdf['google_product_title']) > 0 else 0
         average_price_str = '£{:,.2f}'.format(average_price)
     else:
         fdf = df
-        num_suppliers_str = ""
+        num_genera_str = ""
         num_products_str = ""
         average_price_str = ""
-    return num_suppliers_str, num_products_str, average_price_str, fdf.to_dict('records')
+    return num_genera_str, num_products_str, average_price_str, fdf.to_dict('records')

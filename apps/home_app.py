@@ -40,8 +40,18 @@ comp_app_card = dbc.Card(
     dbc.CardBody(
         [
             html.H5("Compare suppliers by genus", className="card-title"),
-            html.P("Find which competitors supply a particular genus.  Includes information on product type, pot sizes and average prces."),
+            html.P("Find which competitors supply a particular genus.  Includes information on product type, pot sizes and average prices."),
             dbc.Button("View dashboard", color="success", href='/apps/comp_app', outline=True),
+        ]
+    )
+)
+
+supplier_app_card = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Analyse genera offered by specific suppliers", className="card-title"),
+            html.P("Lookup online suppliers and find which genera they offer.  Includes information on product type, pot sizes and average prices. "),
+            dbc.Button("View dashboard", color="success", href='/apps/supplier_app', outline=True),
         ]
     )
 )
@@ -62,7 +72,7 @@ layout = dbc.Container([
         dbc.Col(genera_gs_card), dbc.Col(genera_opp_comp_card)
     ]),
     html.Br(),
-    dbc.Row([dbc.Col(comp_app_card)]),
+    dbc.Row([dbc.Col(comp_app_card), dbc.Col(supplier_app_card)]),
 ])
     # dcc.Link('Go to Genus-Level Search Interest Dashboard', href='/apps/genera_interest_app'),
     # html.Br(),
