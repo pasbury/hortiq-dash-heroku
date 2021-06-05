@@ -29,6 +29,14 @@ try:
 except FileNotFoundError as fnf_error:
     print(fnf_error)
 
+# read genus-level competitor file
+try:
+    infile='data/gs_genus_comp.txt'
+    with open(infile, 'r') as infile:
+        gs_genus_comp = pd.read_json(infile, orient='table')
+except FileNotFoundError as fnf_error:
+    print(fnf_error)
+
 ##  Data and functions for use in filters / dropdowns
 
 # get the options for plant types

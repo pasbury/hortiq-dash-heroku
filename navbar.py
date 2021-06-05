@@ -11,7 +11,8 @@ dropdown = dbc.DropdownMenu(
     children=[
         dbc.DropdownMenuItem("Search Interest", href='/apps/genera_interest_app'),
         dbc.DropdownMenuItem("Online Buying - Summary Level", href='/apps/genera_gs_app'),
-        dbc.DropdownMenuItem("Online Buying - Opportunity", href='/apps/genera_opp_comp_app')
+        dbc.DropdownMenuItem("Online Buying - Opportunity", href='/apps/genera_opp_comp_app'),
+        dbc.DropdownMenuItem("Compare Suppliers", href='/apps/comp_app'),
     ],
     nav = True,
     in_navbar = True,

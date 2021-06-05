@@ -36,6 +36,16 @@ genera_opp_comp_card = dbc.Card(
     )
 )
 
+comp_app_card = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Compare suppliers by genus", className="card-title"),
+            html.P("Find which competitors supply a particular genus.  Includes information on product type, pot sizes and average prces."),
+            dbc.Button("View dashboard", color="success", href='/apps/comp_app', outline=True),
+        ]
+    )
+)
+
 layout = dbc.Container([
     dbc.Row([dbc.Col(html.H3('Welcome to Hortiq: Horticultural intelligence'))]),
     dbc.Row([dbc.Col(html.P('Hortiq is a new service for growers and retailers in horticultural industry.  We aim to provide provide information to help with decisions about assortment, pricing and online marketing.'))]),
@@ -50,7 +60,9 @@ layout = dbc.Container([
     dbc.Row(dbc.Col(html.H4('Insight from Online Buying Options Data'))),
     dbc.Row([
         dbc.Col(genera_gs_card), dbc.Col(genera_opp_comp_card)
-    ])
+    ]),
+    html.Br(),
+    dbc.Row([dbc.Col(comp_app_card)]),
 ])
     # dcc.Link('Go to Genus-Level Search Interest Dashboard', href='/apps/genera_interest_app'),
     # html.Br(),

@@ -52,7 +52,8 @@ layout = dbc.Container([
         value=['All Types'],
         multi=True
     ), width=6)),
-    dbc.Row(dbc.Col(html.H6('Buying options from Google Shopping'))),
+    html.Br(),
+    dbc.Row(dbc.Col(html.H4('Buying options from Google Shopping'))),
     dbc.Row(dbc.Col(dash_table.DataTable(
             id='gs-genus-table',
             data=df.to_dict('records'),
@@ -61,15 +62,22 @@ layout = dbc.Container([
             sort_action="native",
             page_size=15,
             merge_duplicate_headers=True,
-            style_cell={'textAlign': 'right'},
+            style_cell={'textAlign': 'right', 'font_family': 'lato',},
             style_cell_conditional=[{
                     'if': {'column_id': 'genus'},
                     'textAlign': 'left'
                 }],
             style_header={
-                'backgroundColor': 'white',
-                'fontWeight': 'bold'
+                'backgroundColor': '#7b8a8b',
+                'fontWeight': 'bold',
+                'color': 'white'
             },
+            style_data_conditional=[
+                {
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': '#ecf0f1'
+                }
+            ],
            ), width=8))
     ])
 
