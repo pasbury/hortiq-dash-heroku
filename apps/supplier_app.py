@@ -37,9 +37,11 @@ layout = dbc.Container([
     dbc.Row(dbc.Col(dbc.Form(dbc.FormGroup([dbc.Label("Please select supplier:", className="mr-2"),
                                             dbc.Select(id='supplier_dropdown', options=supplier_options, value=['Crocus.co.uk'])], className="mr-3"), inline=True))),
     html.Br(),
-    # dbc.Row([dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
-    #          dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
-    #          dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)]),
+    dbc.Row([
+        dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
+    #    dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
+    #    dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)
+    ]),
     html.Br(),
     dbc.Row(dbc.Col(dash_table.DataTable(
             id='supplier-lookup-table',
@@ -68,7 +70,7 @@ layout = dbc.Container([
     ])
 
 @app.callback(
-    # Output('genera_p', 'children'),
+    Output('genera_p', 'children'),
     #           Output('products_p', 'children'),
     #           Output('average_price_p', 'children'),
               Output('supplier-lookup-table', 'data'),
@@ -86,6 +88,6 @@ def filter_table(value):
         num_genera_str = ""
         num_products_str = ""
         average_price_str = ""
-    return fdf.to_dict('records')
+    return num_genera_str, fdf.to_dict('records')
 
-#num_genera_str, num_products_str, average_price_str,
+#, num_products_str, average_price_str,
