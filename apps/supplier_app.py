@@ -39,7 +39,7 @@ layout = dbc.Container([
     html.Br(),
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of genera", className="card-title"),html.H4(id="genera_p", className="card-text")])), width=3),
-        dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="products_p", className="card-text")])), width=3),
+        dbc.Col(dbc.Card(dbc.CardBody([html.H6("Number of products", className="card-title"),html.H4(id="supplier_products_p", className="card-text")])), width=3),
     #    dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)
     ]),
     html.Br(),
@@ -71,7 +71,7 @@ layout = dbc.Container([
 
 @app.callback(
     Output('genera_p', 'children'),
-              Output('products_p', 'children'),
+              Output('supplier_products_p', 'children'),
     #           Output('average_price_p', 'children'),
               Output('supplier-lookup-table', 'data'),
               Input('supplier_dropdown', 'value'))
