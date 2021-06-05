@@ -42,7 +42,7 @@ layout = dbc.Container([
              dbc.Col(dbc.Card(dbc.CardBody([html.H6("Average price", className="card-title"),html.H4(id="average_price_p", className="card-text")])), width=3)]),
     html.Br(),
     dbc.Row(dbc.Col(dash_table.DataTable(
-            id='gs-genus-comp-table',
+            id='supplier-lookup-table',
             data=df.to_dict('records'),
             columns=cols,
             sort_action="native",
@@ -70,7 +70,7 @@ layout = dbc.Container([
 @app.callback(Output('genera_p', 'children'),
               Output('products_p', 'children'),
               Output('average_price_p', 'children'),
-              Output('gs-genus-comp-table', 'data'),
+              Output('supplier-lookup-table', 'data'),
               Input('supplier_dropdown', 'value'))
 def filter_table(value):
     if value:
