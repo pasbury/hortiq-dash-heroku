@@ -92,6 +92,7 @@ layout = dbc.Container([
         id='gs-plant-comp-table',
         data=plant_df.to_dict('records'),
         columns=plant_cols,
+        #css=[dict(selector='td[data-dash-column="merchant_url_md"] table', rule='text-align: centre;')],
         sort_action="native",
         page_size=15,
         style_cell={'textAlign': 'right', 'font_family': 'lato', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'maxWidth': 12,},
@@ -145,10 +146,9 @@ def filter_table(value):
               Output('gs-plant-comp-table', 'tooltip_data'),
               Input('gs-genus-comp-table', 'active_cell'),
               State('genus_dropdown', 'value'),
-              State('gs-genus-comp-table', 'data'),
               State('gs-plant-comp-table', 'columns'),
 )
-def filter_plant_table(active_cell, value, data, table_columns):
+def filter_plant_table(active_cell, value, table_columns):
     if value and active_cell:
         # filter dataframe based on selection
         selected_supplier = active_cell['row_id']
