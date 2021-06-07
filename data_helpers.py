@@ -37,6 +37,14 @@ try:
 except FileNotFoundError as fnf_error:
     print(fnf_error)
 
+# read plant-level Google shopping data file
+try:
+    infile='data/gs_plant_comp.txt'
+    with open(infile, 'r') as infile:
+        gs_plant_comp = pd.read_json(infile, orient='table')
+except FileNotFoundError as fnf_error:
+    print(fnf_error)
+
 ##  Data and functions for use in filters / dropdowns
 
 # get the options for plant types
