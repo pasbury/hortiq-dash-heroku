@@ -1,6 +1,6 @@
 
 
-![](assets\hortiq-logo-black.png)
+![](assets/hortiq-logo-white.png)
 
 
 
